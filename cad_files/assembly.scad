@@ -6,6 +6,9 @@ use <servo.scad>
 use <tibia.scad>
 
 bb_length = 100;
+bb_height = 8;
+servo_width = 12;
+servo_length = 23;
 
 coxa_rot_angle = 30;
 femur_angle = -40;
