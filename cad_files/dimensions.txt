@@ -1,0 +1,12 @@
+inner diameter center hole: 4.78mm
+width of featherwing: 22.9mm
+length of featherwing (w/o headers): 50.8mm
+height of board + headers: 10.1mm
+
+width lipo battery: 35mm
+length lipo: 60mm
+height lipo: 5.1mm
+
+width of 4xAA holder: 30mm
+height of holder: 32mm
+length of holder: 58.6 mm
