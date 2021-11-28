@@ -1,4 +1,13 @@
+# packages to build local copies of docs
 Sphinx
 rstcheck
 sphinx-autobuild
 sphinx-rtd-theme
+
+# formatting tools
+black
+isort
+
+# static analysis tool. may report things that would be a problem with cpython but are
+# not a problem with circuitpython, use your discretion
+flake8
