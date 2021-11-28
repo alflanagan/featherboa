@@ -1,8 +1,49 @@
-import time, gc, os
-import board
-import feathers2
-from lib import networking
+import gc
+import os
 
+import board
+import microcontroller
+import wifi
+from adafruit_esp32spi import adafruit_esp32spi_socket as socket
+from adafruit_servokit import ServoKit
+from digitalio import DigitalInOut
+
+import feathers2
+from lib.networking import connect_home_network
+from lib.legs import Servos
+
+# wifi: AuthMode, Radio, radio, Monitor, Network, Packet
+# WiFi: connect, enabled, ip_address, neo_status, is_connected
+# feathers2 board pin map:
+# pins in the same row are equivalent
+pin_map = [
+    [board.A0, board.D14, board.DAC1, board.IO17],
+    [board.A1, board.D15, board.DAC2, board.IO18],
+    [board.A10, board.D5, board.IO1],
+    [board.A2, board.D16, board.IO14],
+    [board.A3, board.D17, board.IO12],
+    [board.A4, board.D18, board.IO6],
+    [board.A5, board.D19, board.IO5],
+    [board.A6, board.D13, board.IO11],
+    [board.A7, board.D12, board.IO10],
+    [board.A8, board.D9, board.IO7],
+    [board.A9, board.D6, board.IO3],
+    [board.AMB, board.IO4],
+    [board.APA102_MOSI],
+    [board.APA102_SCK],
+    [board.D0, board.IO44, board.RX],
+    [board.D1, board.IO43, board.TX],
+    [board.D10, board.IO8, board.SDA],
+    [board.D11, board.IO9, board.SCL],
+    [board.D20, board.IO33],
+    [board.D21, board.IO38],
+    [board.D23, board.IO37, board.MISO],
+    [board.D24, board.IO35, board.MOSI],
+    [board.D25, board.IO36, board.SCK],
+    [board.D4, board.IO0],
+    [board.IO21, board.LDO2],
+    [board.LED],
+]
 
 # Make sure the 2nd LDO is turned on
 feathers2.enable_LDO2(True)
@@ -19,7 +60,7 @@ print("Memory Info - gc.mem_free()")
 print("---------------------------")
 print("{:,} Bytes\n".format(gc.mem_free()))
 
-flash = os.statvfs('/')
+flash = os.statvfs("/")
 flash_size = flash[0] * flash[2]
 flash_free = flash[0] * flash[3]
 # Show flash size
@@ -27,3 +68,16 @@ print("Flash - os.statvfs('/')")
 print("---------------------------")
 print("Size: {:,} Bytes\nFree: {:,} Bytes\n".format(flash_size, flash_free))
 
+print("Networking")
+print("--------------")
+
+print("AP MAC Address: " + ":".join(["%x" % byt for byt in wifi.radio.mac_address_ap]))
+
+wifi.radio.start_ap("quad_walker")
+connect_home_network()
+
+print("IP Address " + str(wifi.radio.ipv4_address_ap))
+
+# TODO: access local web API
+
+# dns 192.168.1.1
