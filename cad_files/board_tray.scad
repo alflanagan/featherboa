@@ -40,7 +40,7 @@ tray_bottom()
     cube(
         [
             featherwing_width * 2 + sidewall_width * 3,
-            featherwing_length,
+            featherwing_length + sidewall_width * 2,
             tray_bottom_thickness
         ],
         center = true);
@@ -91,13 +91,13 @@ end_lip(ymul)
 {
     translate([
         0,
-        ymul * (featherwing_length / 2),
+        ymul * (featherwing_length / 2 + sidewall_width / 2),
         circuit_board_thickness -
         tray_bottom_thickness
     ])
         cube(
             [
-                featherwing_width * 2 + sidewall_width * 3,
+                featherwing_width * 2 + sidewall_width * 5,
                 1,
                 tray_bottom_thickness +
                 circuit_board_thickness
@@ -113,7 +113,6 @@ board_tray()
         union()
         {
             tray_bottom();
-            center_post();
             sidewall(1);
             sidewall(0);
             sidewall(-1);
@@ -122,6 +121,7 @@ board_tray()
         }
         power_notch(1, 1);
         power_notch(-1, -1);
+        center_post();
     }
 }
 
