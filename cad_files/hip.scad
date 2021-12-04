@@ -39,6 +39,7 @@ hip()
                  ]) {
                 translate(i) cylinder(r = hip_end_radius, h = hip_height, $fn = 50);
             }
+
         }
 
         // because they're cutouts, overspecify height on these
@@ -54,6 +55,7 @@ hip()
                 cylinder(r = screwhole_radius, h = hip_height + 5, $fn = 20);
         }
 
+
         // servo body cutouts
         for (i = [
                  [ -servo_motor_length/2 - hip_center_space / 2 - screwhole_offset*2, 0, hip_height / 2 ],
@@ -63,5 +65,14 @@ hip()
                 cube([ servo_motor_length, servo_motor_width, hip_height + 5 ],
                      center = true);
         }
+
+        // screw holes to backbone
+        for (i = [
+                 [ -2.5, 0, -10 ],
+                 [ 2.5, 0, -10 ]
+             ]) {
+            translate(i) cylinder(r = 1, h = 20, $fn = 20);
+        }
+
     }
 }
