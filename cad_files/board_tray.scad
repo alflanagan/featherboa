@@ -1,5 +1,4 @@
 // tray for attaching feather boards to body assembly
-
 // 1 unit = 1 mm
 
 // minor overlap to keep openscad clear on whether objects are actually separate
@@ -29,6 +28,16 @@ power_post_width = 7.5;
 power_post_from_end = 6;
 
 center_post_offset = -backbone_height / 2 - tray_bottom_thickness + overlap;
+
+// dimensions of motor power switch
+
+switch_width = 11.58;
+switch_length = 4.19;
+switch_height = 5.6;
+switch_wires_length = 2;
+switch_wires_width = 6;
+switch_box_thickness = 1;
+
 
 /* Parts  ---------------------------------------------------------------*/
 
@@ -80,8 +89,7 @@ power_notch(xmul, ymul)
             [
                 sidewall_width * 2,
                 power_post_width + overlap,
-                featherwing_height +
-                overlap
+                featherwing_height + overlap
             ],
             center = true);
 }
@@ -89,21 +97,53 @@ power_notch(xmul, ymul)
 module
 end_lip(ymul)
 {
+    // not sure where the 1.25 below is coming from, probably need to work
+    // through it again
     translate([
         0,
         ymul * (featherwing_length / 2 + sidewall_width / 2),
-        circuit_board_thickness -
-        tray_bottom_thickness
+        circuit_board_thickness - tray_bottom_thickness * 1.25
     ])
         cube(
             [
                 featherwing_width * 2 + sidewall_width * 5,
                 1,
-                tray_bottom_thickness +
-                circuit_board_thickness
+                tray_bottom_thickness + circuit_board_thickness
             ],
             center = true);
 }
+
+module
+switch_holder()
+{
+    translate([
+        -featherwing_width - sidewall_width * 1.5 - switch_length - switch_box_thickness * 2 + overlap,
+        -switch_length-switch_box_thickness / 2,
+        -tray_bottom_thickness / 2
+    ])
+    difference() {
+        union() {
+            cube([switch_length, switch_width, switch_box_thickness]);
+            translate([0, -switch_box_thickness+overlap, 0])
+            cube([switch_length, switch_box_thickness, switch_height]);
+            translate([0, switch_width-overlap, 0])
+            cube([switch_length, switch_box_thickness, switch_height]);
+            translate([-switch_box_thickness+overlap, -switch_box_thickness, 0])
+            cube([switch_box_thickness, switch_width + switch_box_thickness * 2, switch_height]);
+            translate([switch_length-overlap, -switch_box_thickness, 0])
+            cube([switch_box_thickness, switch_width + switch_box_thickness * 2, switch_height]);
+        }
+        translate([
+            ( switch_length - switch_wires_length ) / 2,
+            ( switch_width - switch_wires_width ) / 2,
+            -switch_box_thickness / 2
+        ])
+        cube([switch_wires_length, switch_wires_width, switch_box_thickness*2]);
+    };
+}
+
+
+/* Assembly ---------------------------------------------------------------*/
 
 module
 board_tray()
@@ -118,6 +158,7 @@ board_tray()
             sidewall(-1);
             end_lip(1);
             end_lip(-1);
+            switch_holder();
         }
         power_notch(1, 1);
         power_notch(-1, -1);
