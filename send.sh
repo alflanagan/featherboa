@@ -7,3 +7,6 @@ if [ ! -d $DESTDIR ]; then
 fi
 cp ./*py ${DESTDIR}
 cp lib/*py  ${DESTDIR}/lib
+# we don't copy third-party libraries here. I recommend you use a tool to install and update
+# those. Check out VSCode 'Circuitpython' extension, or Adafruit's CircUp
+# (https://github.com/adafruit/circup/)
