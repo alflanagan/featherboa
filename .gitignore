@@ -6,3 +6,14 @@ secrets.py
 
 # test output specific to my board
 test_results.txt
+
+# various environment-specific configurations
+.idea/
+.vscode/
+.nvmrc
+.python-version
+
+# specific to individual board
+boot_out.txt
+# vscode workspace seems to be pretty machine-specific, sharing it not useful
+*.code-workspace
