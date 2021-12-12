@@ -12,7 +12,7 @@ backbone_height = 8;
 
 // dimensions of featherwing servo board w/power and right-angle headers
 featherwing_width = 22.9;
-featherwing_length = 50.8;
+featherwing_length = 52.8;
 // board + power post = 10 mm, walls don't need to be that high
 featherwing_height = 8;
 circuit_board_thickness = 2.6; // accounts for through-hole leads
@@ -31,7 +31,7 @@ center_post_offset = -backbone_height / 2 - tray_bottom_thickness + overlap;
 
 // dimensions of motor power switch
 
-switch_width = 11.58;
+switch_width = 12.58;
 switch_length = 4.19;
 switch_height = 5.6;
 switch_wires_length = 2;
@@ -97,12 +97,10 @@ power_notch(xmul, ymul)
 module
 end_lip(ymul)
 {
-    // not sure where the 1.25 below is coming from, probably need to work
-    // through it again
     translate([
         0,
         ymul * (featherwing_length / 2 + sidewall_width / 2),
-        circuit_board_thickness - tray_bottom_thickness * 1.25
+        circuit_board_thickness / 2
     ])
         cube(
             [
@@ -163,6 +161,8 @@ board_tray()
         power_notch(1, 1);
         power_notch(-1, -1);
         center_post();
+//        translate([0, 0, featherwing_height/2 + 2])
+//        cube([featherwing_width*3+switch_length*2+5, featherwing_length+5, 10], center=true);
     }
 }
 
