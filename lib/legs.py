@@ -3,15 +3,16 @@ import time
 from adafruit_servokit import ServoKit
 
 
-class Legs:
+# alas, CP doesn't suport dataclasses
+class Position:
     """
-    Enum of legs
+    A set of motor angles to define the position of a leg.
     """
 
-    LEFT_FRONT = 1
-    RIGHT_FRONT = 2
-    LEFT_REAR = 3
-    RIGHT_REAR = 4
+    def __init__(self, lower: int, higher: int, hip: int):
+        self.lower = lower
+        self.higher = higher
+        self.hip = hip
 
 
 class Motors:
@@ -34,6 +35,53 @@ class Motors:
     RIGHT_REAR_HIP = 12
 
 
+class Leg:
+    """
+    Tracks which motors belong to which leg.
+    """
+
+    # unfortunately circuitpython doesn't support Enum class
+    def __init__(self, lower, uppper, hip):
+        self.lower = lower
+        self.upper = uppper
+        self.hip = hip
+        self.position = None
+
+    def current_pos(self) -> Position:
+        """
+        How do I determine and/or keep track of this?
+        """
+        return self.position
+
+    def set_pos(self, pos: Position):
+        """
+        Instructs leg motors to move to the current position.
+        """
+        self.lower.angle = pos.lower
+        self.upper.angle = pos.higher
+        self.hip.angle = pos.hip
+        self.position = pos
+
+
+class Legs:
+    """
+    Enum of legs
+    """
+
+    LEFT_FRONT = Leg(
+        Motors.LEFT_FRONT_LOWER, Motors.LEFT_FRONT_UPPER, Motors.LEFT_FRONT_HIP
+    )
+    RIGHT_FRONT = Leg(
+        Motors.RIGHT_FRONT_LOWER, Motors.RIGHT_FRONT_UPPER, Motors.RIGHT_FRONT_HIP
+    )
+    LEFT_REAR = Leg(
+        Motors.LEFT_REAR_LOWER, Motors.LEFT_REAR_UPPER, Motors.LEFT_REAR_HIP
+    )
+    RIGHT_REAR = Leg(
+        Motors.RIGHT_REAR_LOWER, Motors.RIGHT_REAR_UPPER, Motors.RIGHT_REAR_HIP
+    )
+
+
 # motors will need some calibration for not being mounted at perfect angle
 # try to keep these numbers as small as possible
 #
@@ -53,9 +101,9 @@ motor_angle_calibration = {
     Motors.RIGHT_REAR_HIP: 0,
 }
 
+
 # define a "default" standing pose
-# lower motor, upper motor, hip motor
-STANDING_POSE = [90, 120, 100]
+STANDING_POSE = Position(90, 120, 100)
 
 
 class Servos:
@@ -65,6 +113,15 @@ class Servos:
         self.kit = ServoKit(channels=8)
 
     def stand_up(self) -> None:
-        self.kit.servo[LEFT_FRONT_LOWER].angle = STANDING_POSE[0]
-        self.kit.servo[LEFT_FRONT_UPPER].angle = STANDING_POSE[1]
-        self.kit.servo[LEFT_FRONT_HIP].angle = STANDING_POSE[2]
+        self.set_attitude(Legs.LEFT_FRONT, STANDING_POSE)
+        self.set_attitude(Legs.RIGHT_FRONT, STANDING_POSE)
+        self.set_attitude(Legs.LEFT_REAR, STANDING_POSE)
+        self.set_attitude(Legs.RIGHT_REAR, STANDING_POSE)
+
+    def set_attitude(self, leg: Leg, position: Position):
+        """
+        Set the servo angles for a leg
+        """
+        self.kit.servo[leg.lower].angle = position.lower
+        self.kit.servo[leg.upper].angle = position.upper
+        self.kit.servo[leg.hip].angle = position.hip
