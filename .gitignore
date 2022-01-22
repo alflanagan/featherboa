@@ -1,3 +1,6 @@
+# not created by circuitpython, but may be by IDE/cpython
+__pycache__/
+
 # byte-compiled circuitpython files
 *.mpy
 
