@@ -9,13 +9,13 @@ class Position:
     A set of motor angles to define the position of a leg.
     """
 
-    def __init__(self, lower: int, higher: int, hip: int):
+    def __init__(self, lower: int, upper: int, hip: int):
         self.lower = lower
-        self.higher = higher
+        self.upper = upper
         self.hip = hip
 
 
-class Motors:
+class Motor:
     """
     Enum of motors
     """
@@ -57,9 +57,9 @@ class Leg:
         """
         Instructs leg motors to move to the current position.
         """
-        self.lower.angle = pos.lower
-        self.upper.angle = pos.higher
-        self.hip.angle = pos.hip
+        self.lower = pos.lower
+        self.upper = pos.upper
+        self.hip = pos.hip
         self.position = pos
 
 
@@ -69,36 +69,34 @@ class Legs:
     """
 
     LEFT_FRONT = Leg(
-        Motors.LEFT_FRONT_LOWER, Motors.LEFT_FRONT_UPPER, Motors.LEFT_FRONT_HIP
+        Motor.LEFT_FRONT_LOWER, Motor.LEFT_FRONT_UPPER, Motor.LEFT_FRONT_HIP
     )
     RIGHT_FRONT = Leg(
-        Motors.RIGHT_FRONT_LOWER, Motors.RIGHT_FRONT_UPPER, Motors.RIGHT_FRONT_HIP
+        Motor.RIGHT_FRONT_LOWER, Motor.RIGHT_FRONT_UPPER, Motor.RIGHT_FRONT_HIP
     )
-    LEFT_REAR = Leg(
-        Motors.LEFT_REAR_LOWER, Motors.LEFT_REAR_UPPER, Motors.LEFT_REAR_HIP
-    )
+    LEFT_REAR = Leg(Motor.LEFT_REAR_LOWER, Motor.LEFT_REAR_UPPER, Motor.LEFT_REAR_HIP)
     RIGHT_REAR = Leg(
-        Motors.RIGHT_REAR_LOWER, Motors.RIGHT_REAR_UPPER, Motors.RIGHT_REAR_HIP
+        Motor.RIGHT_REAR_LOWER, Motor.RIGHT_REAR_UPPER, Motor.RIGHT_REAR_HIP
     )
 
 
 # motors will need some calibration for not being mounted at perfect angle
 # try to keep these numbers as small as possible
-#
+# (if they're all 0, then I haven't calibrated yet)
 motor_angle_calibration = {
-    Motors.LEFT_FRONT_LOWER: 0,
+    Motor.LEFT_FRONT_LOWER: 0,
     # copilot filled in contents from here correctly. Getting scary.
-    Motors.LEFT_FRONT_UPPER: 0,
-    Motors.LEFT_FRONT_HIP: 0,
-    Motors.RIGHT_FRONT_LOWER: 0,
-    Motors.RIGHT_FRONT_UPPER: 0,
-    Motors.RIGHT_FRONT_HIP: 0,
-    Motors.LEFT_REAR_LOWER: 0,
-    Motors.LEFT_REAR_UPPER: 0,
-    Motors.LEFT_REAR_HIP: 0,
-    Motors.RIGHT_REAR_LOWER: 0,
-    Motors.RIGHT_REAR_UPPER: 0,
-    Motors.RIGHT_REAR_HIP: 0,
+    Motor.LEFT_FRONT_UPPER: 0,
+    Motor.LEFT_FRONT_HIP: 0,
+    Motor.RIGHT_FRONT_LOWER: 0,
+    Motor.RIGHT_FRONT_UPPER: 0,
+    Motor.RIGHT_FRONT_HIP: 0,
+    Motor.LEFT_REAR_LOWER: 0,
+    Motor.LEFT_REAR_UPPER: 0,
+    Motor.LEFT_REAR_HIP: 0,
+    Motor.RIGHT_REAR_LOWER: 0,
+    Motor.RIGHT_REAR_UPPER: 0,
+    Motor.RIGHT_REAR_HIP: 0,
 }
 
 
@@ -106,7 +104,7 @@ motor_angle_calibration = {
 STANDING_POSE = Position(90, 120, 100)
 
 
-class Servos:
+class Servo:
     def __init__(self) -> None:
         # Set channels to the number of servo channels on your kit.
         # 8 for FeatherWing, 16 for Shield/HAT/Bonnet.
