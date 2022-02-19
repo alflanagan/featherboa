@@ -7,3 +7,4 @@ adafruit-circuitpython-portalbase
 # these are tools used to convert python text to the compressed mpy format
 circuitpython-build-tools
 adafruit-circuitpython-servokit
+circup
