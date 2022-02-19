@@ -1,9 +1,7 @@
-import time
-
 from adafruit_servokit import ServoKit
 
 
-# alas, CP doesn't suport dataclasses
+# alas, CPy doesn't suport dataclasses
 class Position:
     """
     A set of motor angles to define the position of a leg.
@@ -19,20 +17,22 @@ class Motor:
     """
     Enum of motors
     """
-
-    LEFT_FRONT_LOWER = 0
+    # 6 motors per board, so we're skipping motor 0 and motor 7
+    # first board
+    LEFT_FRONT_LOWER = 2
     LEFT_FRONT_UPPER = 1
-    LEFT_FRONT_HIP = 2
-    RIGHT_FRONT_LOWER = 5
-    RIGHT_FRONT_UPPER = 4
-    RIGHT_FRONT_HIP = 3
-    # rest of these enums filled in automatically by Copilot, following the pattern
+    LEFT_FRONT_HIP = 3
     LEFT_REAR_LOWER = 6
-    LEFT_REAR_UPPER = 7
-    LEFT_REAR_HIP = 9
-    RIGHT_REAR_LOWER = 10
-    RIGHT_REAR_UPPER = 11
-    RIGHT_REAR_HIP = 12
+    LEFT_REAR_UPPER = 5
+    LEFT_REAR_HIP = 4
+
+    # second board (8 + servo number) (skip 8, 15)
+    RIGHT_FRONT_LOWER = 9
+    RIGHT_FRONT_UPPER = 10
+    RIGHT_FRONT_HIP = 11
+    RIGHT_REAR_LOWER = 12
+    RIGHT_REAR_UPPER = 13
+    RIGHT_REAR_HIP = 14
 
 
 class Leg:
@@ -105,10 +105,20 @@ STANDING_POSE = Position(90, 120, 100)
 
 
 class Servo:
-    def __init__(self) -> None:
+    def __init__(self, channels=8, address=0x40, reference_clock_speed=25000000, frequency=50) -> None:
+        """
+        :param int channels: The number of servo channels available. Must be 8 or 16. The FeatherWing
+                         has 8 channels. The Shield, HAT, and Bonnet have 16 channels.
+        :param int address: The I2C address of the PCA9685. Default address is ``0x40``.
+        :param int reference_clock_speed: The frequency of the internal reference clock in Hertz.
+                                      Default reference clock speed is ``25_000_000``.
+        :param int frequency: The overall PWM frequency of the PCA9685 in Hertz.
+                                      Default frequency is ``50``.
+
+        """
         # Set channels to the number of servo channels on your kit.
         # 8 for FeatherWing, 16 for Shield/HAT/Bonnet.
-        self.kit = ServoKit(channels=8)
+        self.kit = ServoKit(channels=channels, address=address, reference_clock_speed=reference_clock_speed, frequency=frequency)
 
     def stand_up(self) -> None:
         self.set_attitude(Legs.LEFT_FRONT, STANDING_POSE)

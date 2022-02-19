@@ -7,24 +7,35 @@
 
 # Import required libraries
 import time
+
 import board
-from digitalio import DigitalInOut, Direction, Pull
-   
+from digitalio import DigitalInOut, Direction
+
 # Helper functions
 
+
 def led_blink():
-    """Set the internal LED IO13 to it's inverse state"""
+    """
+    Set the internal LED IO13 to its inverse state
+    """
     led13.value = not led13.value
 
-def led_set( state ):
-    """Set the internal LED IO13 to this state"""
+
+def led_set(state):
+    """
+    Set the internal LED IO13 to this state
+    """
     led13.value = state
 
+
 def enable_LDO2(state):
-    """Set the power for the second on-board LDO to allow no current draw when not needed."""
+    """
+    Set the power for the second on-board LDO to allow no current draw when not needed.
+    """
     ldo2.value = state
     # A small delay to let the IO change state
     time.sleep(0.035)
+
 
 # Init Blink LED
 led13 = DigitalInOut(board.LED)
