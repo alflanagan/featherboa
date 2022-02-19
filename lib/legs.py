@@ -1,7 +1,6 @@
 from adafruit_servokit import ServoKit
 
 
-# alas, CPy doesn't suport dataclasses
 class Position:
     """
     A set of motor angles to define the position of a leg.
@@ -17,6 +16,7 @@ class Motor:
     """
     Enum of motors
     """
+
     # 6 motors per board, so we're skipping motor 0 and motor 7
     # first board
     LEFT_FRONT_LOWER = 2
@@ -40,7 +40,6 @@ class Leg:
     Tracks which motors belong to which leg.
     """
 
-    # unfortunately circuitpython doesn't support Enum class
     def __init__(self, lower, uppper, hip):
         self.lower = lower
         self.upper = uppper
@@ -80,20 +79,20 @@ class Legs:
     )
 
 
-# motors will need some calibration for not being mounted at perfect angle
-# try to keep these numbers as small as possible
-# (if they're all 0, then I haven't calibrated yet)
+# need to adjust angle of motors because of individual differences in mounting angles
+# 0 means straight: so hip pointing direct right or left, legs extended fully
+# that's middle of the range for hip and lower joint, end of the range for upper joint
+# see docs for discussion of mounting options for motors, and pros & cons.
 motor_angle_calibration = {
-    Motor.LEFT_FRONT_LOWER: 0,
-    # copilot filled in contents from here correctly. Getting scary.
+    Motor.LEFT_FRONT_LOWER: 80,
     Motor.LEFT_FRONT_UPPER: 0,
-    Motor.LEFT_FRONT_HIP: 0,
+    Motor.LEFT_FRONT_HIP: 120,
     Motor.RIGHT_FRONT_LOWER: 0,
     Motor.RIGHT_FRONT_UPPER: 0,
     Motor.RIGHT_FRONT_HIP: 0,
-    Motor.LEFT_REAR_LOWER: 0,
-    Motor.LEFT_REAR_UPPER: 0,
-    Motor.LEFT_REAR_HIP: 0,
+    Motor.LEFT_REAR_LOWER: 90,
+    Motor.LEFT_REAR_UPPER: 100,
+    Motor.LEFT_REAR_HIP: 90,
     Motor.RIGHT_REAR_LOWER: 0,
     Motor.RIGHT_REAR_UPPER: 0,
     Motor.RIGHT_REAR_HIP: 0,
@@ -105,10 +104,12 @@ STANDING_POSE = Position(90, 120, 100)
 
 
 class Servo:
-    def __init__(self, channels=8, address=0x40, reference_clock_speed=25000000, frequency=50) -> None:
+    def __init__(
+        self, channels=8, address=0x40, reference_clock_speed=25000000, frequency=50
+    ) -> None:
         """
-        :param int channels: The number of servo channels available. Must be 8 or 16. The FeatherWing
-                         has 8 channels. The Shield, HAT, and Bonnet have 16 channels.
+        :param int channels: The number of servo channels available. Must be 8 or 16. The
+                             FeatherWing has 8 channels. The Shield, HAT, and Bonnet have 16.
         :param int address: The I2C address of the PCA9685. Default address is ``0x40``.
         :param int reference_clock_speed: The frequency of the internal reference clock in Hertz.
                                       Default reference clock speed is ``25_000_000``.
@@ -118,7 +119,12 @@ class Servo:
         """
         # Set channels to the number of servo channels on your kit.
         # 8 for FeatherWing, 16 for Shield/HAT/Bonnet.
-        self.kit = ServoKit(channels=channels, address=address, reference_clock_speed=reference_clock_speed, frequency=frequency)
+        self.kit = ServoKit(
+            channels=channels,
+            address=address,
+            reference_clock_speed=reference_clock_speed,
+            frequency=frequency,
+        )
 
     def stand_up(self) -> None:
         self.set_attitude(Legs.LEFT_FRONT, STANDING_POSE)

@@ -7,7 +7,7 @@ import wifi
 
 from constants import NS_PER_SECOND
 from lib.feathers2 import enable_LDO2, led_set
-from lib.legs import Motor, Servo
+from lib.legs import Motor, Servo, motor_angle_calibration
 from lib.networking import connect_home_network
 
 # wifi: AuthMode, Radio, radio, Monitor, Network, Packet
@@ -91,5 +91,5 @@ for num in [
     Motor.LEFT_REAR_LOWER,
 ]:
     print("testing motor index " + str(num))
-    servo0.kit.servo[num].angle = 90
-    sleep(2)
+    servo0.kit.servo[num].angle = motor_angle_calibration[num]
+    # sleep(2)
