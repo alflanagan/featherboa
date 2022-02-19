@@ -14,7 +14,7 @@ The robot body is based on a [Thingiverse Item](https://www.thingiverse.com/thin
 
 ## Project Log
 
-I am (trying to) maintain a [log](./project_log.md) of the progress of this project. Hopefully if you're interested in this
+I am (trying to) maintain a [log](./docs/project_log.md) of the progress of this project. Hopefully if you're interested in this
 project you can learn from my mistakes along the way.
 
 ---
