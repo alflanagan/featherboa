@@ -12,11 +12,11 @@ The chip is being used to drive two Adafruit Feather [motor controllers](https:/
 
 The robot body is based on a [Thingiverse Item](https://www.thingiverse.com/thing:50125)\*. I've included the OpenScad files in this repository, some of them have been re-written by me.
 
+## Project Log
 
+I am (trying to) maintain a [log](./project_log.md) of the progress of this project. Hopefully if you're interested in this
+project you can learn from my mistakes along the way.
 
+---
 
-
-
-
-
-* Those files are covered by the Creative Commons license [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+\* Those files are covered by the Creative Commons license [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
