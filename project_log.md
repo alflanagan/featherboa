@@ -30,3 +30,26 @@ Later, at the space:
 1. added (back) holes in hip.scad that mount to the backbone piece
 2. switch dimensions: 11.58 mm x 4.19 mm x 5.6 mm (height). wires project from the bottom have a width of 6 mm x 2 mm (
    width depends on how wires are bent. need to add shrinkwrap tubing)
+
+2/19/22
+
+Some catchup:
+
+   1. Have a holder printed with a switch, which is connected to a 4-AA battery holder and the Vin of one of the motor controller
+      boards. Boards are held in place with velcro (hey, it's a prototype.) One motor controller is stacked on top of the
+      FeatherS2 board.
+   2. Circuitpython is now at 7.2.0-alpha2, for better feathers2 support. Alpha 1 had some real problems, but alpha 2 seems to
+      have resolved them and is working nicely. A release candidate version is out now, I will probably upgrade again soon.
+   3. Somewhere in here I recommend a VS Code extension for circuitpython at https://github.com/joedevivo/vscode-circuitpython.
+      Unfortunately I've run into too many unresolved issues and had to remove it. It apparently is not being maintained since
+      mid-2021. (The usual sad fate of many open-source projects.) In fact, I've forked it, but as my knowledge of Typescript is
+      rudimentary, and my knowledge of VS Code extensions basically non-existent, don't hold your breath for fixes soon.
+   4. Pretty sure the 4-AA battery design is just too heavy, I need to go with AAAs or probably a couple of li-poly batteries.
+
+TODOS:
+
+   1. Further updates to board holder. The side notches are still a little bit off, and I should add notches for the connectors
+      on the board ends. However, the velcro is (for now) lifting the connectors higher than the end walls anyway. Ideally you'd
+      be able to snap the boards into the holder and have notches for everything, lined up properly.
+   2. A lot of coding. I'm still not happy with the data structures for representing motors, motor controllers, and the four
+      legs, to say nothing of actually programming coherent movement.
