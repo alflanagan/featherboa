@@ -53,3 +53,9 @@ TODOS:
       be able to snap the boards into the holder and have notches for everything, lined up properly.
    2. A lot of coding. I'm still not happy with the data structures for representing motors, motor controllers, and the four
       legs, to say nothing of actually programming coherent movement.
+
+Done:
+
+   1. Hooked up motors for left side and spent some time matching servo motor # on the board to position on the robot. Note
+      that angles are very inconsistent, need to calibrate.
+   2. A lot of code cleanup and refactoring.
