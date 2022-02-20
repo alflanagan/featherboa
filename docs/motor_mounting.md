@@ -1,5 +1,9 @@
 # Notes on Mounting SG92R MicroServo Motors
 
+![robot leg with three motors](robot_leg_standing_022022.jpeg)
+
+_One of four legs of the robot, more or less in a standing position. From the left, parts are a tibia, an ulna, and a hip. Farthest right is the hip of another leg._
+
 ## Overview
 
 There are two basic points of connection between each motor and the body frame. The first is a rectangular hole that exactly fits the main body under the mounting lip. The second is the single point of contact with the gear which actually creates the motion.
