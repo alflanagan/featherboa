@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="2.1471796in"
+   height="1.1900693in"
+   viewBox="0 0 54.538362 30.227761"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   sodipodi:docname="sg92r_mount1.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     units="in"
+     inkscape:zoom="3.1108586"
+     inkscape:cx="99.811673"
+     inkscape:cy="-16.072733"
+     inkscape:window-width="2088"
+     inkscape:window-height="1324"
+     inkscape:window-x="408"
+     inkscape:window-y="608"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-19.414204,-13.044707)">
+    <ellipse
+       style="fill:#9a9ad0;fill-opacity:1;stroke-width:0.264583"
+       id="path15429"
+       cx="26.154425"
+       cy="21.269703"
+       rx="1.7123424"
+       ry="1.2190288" />
+    <ellipse
+       style="fill:#9a9ad0;fill-opacity:1;stroke-width:0.264583"
+       id="ellipse15555"
+       cx="53.762756"
+       cy="21.2889"
+       rx="1.7123424"
+       ry="1.2190288" />
+    <g
+       id="g15572">
+      <rect
+         style="fill:#0000ff;fill-rule:evenodd;stroke-width:0.175507"
+         id="rect31"
+         width="22.9"
+         height="15.8"
+         x="28.652569"
+         y="24.288349" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:4.23333px;line-height:1.25;font-family:sans-serif;fill:#dabd0d;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="32.876141"
+         y="35.836315"
+         id="text2777"><tspan
+           sodipodi:role="line"
+           id="tspan2775"
+           style="font-size:4.23333px;fill:#dabd0d;fill-opacity:1;stroke-width:0.264583"
+           x="32.876141"
+           y="35.836315">SG92R</tspan></text>
+      <rect
+         style="fill:#0000ff;fill-opacity:1;stroke-width:0.264583"
+         id="rect14765"
+         width="32.299999"
+         height="2.7"
+         x="23.952568"
+         y="21.744707" />
+      <rect
+         style="fill:#0000ff;fill-opacity:1;stroke-width:0.27116"
+         id="rect15519"
+         width="22.9"
+         height="4"
+         x="28.652569"
+         y="17.744707" />
+      <rect
+         style="fill:#0000ff;fill-opacity:1;stroke-width:0.207386"
+         id="rect15521"
+         width="11.4"
+         height="4.6999998"
+         x="28.652569"
+         y="13.044707" />
+    </g>
+    <rect
+       style="fill:#b60050;fill-opacity:1;stroke-width:0.329189"
+       id="rect15564"
+       width="50"
+       height="2.7"
+       x="23.952568"
+       y="24.444708" />
+    <text
+       xml:space="preserve"
+       style="font-size:2.82223px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="43.749321"
+       y="43.232506"
+       id="text25693"><tspan
+         sodipodi:role="line"
+         id="tspan25691"
+         style="stroke-width:0.264583"
+         x="43.749321"
+         y="43.232506">motor</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.82223px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="58.606152"
+       y="30.021879"
+       id="text27493"><tspan
+         sodipodi:role="line"
+         id="tspan27491"
+         style="stroke-width:0.264583"
+         x="58.606152"
+         y="30.021879">body part</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.11667px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="19.214733"
+       y="23.862368"
+       id="text970"><tspan
+         sodipodi:role="line"
+         id="tspan968"
+         style="font-size:2.11667px;stroke-width:0.264583"
+         x="19.214733"
+         y="23.862368">lip</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.11667px;line-height:1.25;font-family:sans-serif;stroke-width:0.264583"
+       x="22.620762"
+       y="15.393239"
+       id="text12251"><tspan
+         sodipodi:role="line"
+         id="tspan12249"
+         style="font-size:2.11667px;stroke-width:0.264583"
+         x="22.620762"
+         y="15.393239">gear</tspan></text>
+  </g>
+</svg>
