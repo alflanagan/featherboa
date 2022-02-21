@@ -19,13 +19,10 @@ circuit_board_thickness = 2.6; // accounts for through-hole leads
 
 sidewall_width = 1;
 
-// height of double-stacked servo and exp32-c2 board
-stacked_featherwing_height = 24;
-
 tray_bottom_thickness = 1;
 
-power_post_width = 7.5;
-power_post_from_end = 6;
+power_post_width = 8.2;
+power_post_from_end = 8;
 
 center_post_offset = -backbone_height / 2 - tray_bottom_thickness + overlap;
 
@@ -37,7 +34,6 @@ switch_height = 5.6;
 switch_wires_length = 2;
 switch_wires_width = 6;
 switch_box_thickness = 1;
-
 
 /* Parts  ---------------------------------------------------------------*/
 
@@ -89,13 +85,14 @@ power_notch(xmul, ymul)
             [
                 sidewall_width * 2,
                 power_post_width + overlap,
-                featherwing_height + overlap
+                featherwing_height +
+                overlap
             ],
             center = true);
 }
 
 module
-end_lip(ymul)
+end_lip(ymul, xmul)
 {
     translate([
         0,
@@ -104,9 +101,28 @@ end_lip(ymul)
     ])
         cube(
             [
-                featherwing_width * 2 + sidewall_width * 5,
+                xmul * (featherwing_width * 2 + sidewall_width * 5),
                 1,
-                tray_bottom_thickness + circuit_board_thickness
+                tray_bottom_thickness +
+                circuit_board_thickness
+            ],
+            center = true);
+}
+
+module
+end_lip2(xscale, xoffset, yoffset)
+{
+    translate([
+        xoffset,
+        featherwing_length / 2 + sidewall_width / 2 + yoffset,
+        circuit_board_thickness / 2
+    ])
+        cube(
+            [
+                xscale * (featherwing_width * 2 + sidewall_width * 5),
+                1,
+                tray_bottom_thickness +
+                circuit_board_thickness
             ],
             center = true);
 }
@@ -115,31 +131,85 @@ module
 switch_holder()
 {
     translate([
-        -featherwing_width - sidewall_width * 1.5 - switch_length - switch_box_thickness * 2 + overlap,
-        -switch_length-switch_box_thickness / 2,
+        -featherwing_width - sidewall_width * 1.5 - switch_length -
+            switch_box_thickness * 2 + overlap,
+        -switch_length - switch_box_thickness / 2,
         -tray_bottom_thickness / 2
-    ])
-    difference() {
-        union() {
-            cube([switch_length, switch_width, switch_box_thickness]);
-            translate([0, -switch_box_thickness+overlap, 0])
-            cube([switch_length, switch_box_thickness, switch_height]);
-            translate([0, switch_width-overlap, 0])
-            cube([switch_length, switch_box_thickness, switch_height]);
-            translate([-switch_box_thickness+overlap, -switch_box_thickness, 0])
-            cube([switch_box_thickness, switch_width + switch_box_thickness * 2, switch_height]);
-            translate([switch_length-overlap, -switch_box_thickness, 0])
-            cube([switch_box_thickness, switch_width + switch_box_thickness * 2, switch_height]);
+    ]) difference()
+    {
+        union()
+        {
+            cube([ switch_length, switch_width, switch_box_thickness ]);
+            translate([ 0, -switch_box_thickness + overlap, 0 ])
+                cube([ switch_length, switch_box_thickness, switch_height ]);
+            translate([ 0, switch_width - overlap, 0 ])
+                cube([ switch_length, switch_box_thickness, switch_height ]);
+            translate(
+                [ -switch_box_thickness + overlap, -switch_box_thickness, 0 ])
+                cube([
+                    switch_box_thickness,
+                    switch_width + switch_box_thickness * 2,
+                    switch_height
+                ]);
+            translate([ switch_length - overlap, -switch_box_thickness, 0 ])
+                cube([
+                    switch_box_thickness,
+                    switch_width + switch_box_thickness * 2,
+                    switch_height
+                ]);
         }
         translate([
-            ( switch_length - switch_wires_length ) / 2,
-            ( switch_width - switch_wires_width ) / 2,
+            (switch_length - switch_wires_length) / 2,
+            (switch_width - switch_wires_width) / 2,
             -switch_box_thickness / 2
         ])
-        cube([switch_wires_length, switch_wires_width, switch_box_thickness*2]);
+            cube([
+                switch_wires_length,
+                switch_wires_width,
+                switch_box_thickness * 2
+            ]);
     };
 }
 
+module
+third_tray()
+{
+    translate([
+        -featherwing_length / 2,
+        featherwing_length / 2 + sidewall_width,
+        -tray_bottom_thickness / 2
+    ]) union()
+    {
+        cube([
+            featherwing_length,
+            featherwing_width + 2 * sidewall_width,
+            tray_bottom_thickness
+        ]);
+        translate([
+            featherwing_length / 2,
+            featherwing_width + sidewall_width * 2,
+            tray_bottom_thickness / 2
+        ])
+        {
+            rotate([ 0, 0, 90 ])
+            {
+                union()
+                {
+                    difference()
+                    {
+                        sidewall(0);
+                        power_notch(0, 1);
+                    };
+                    translate([ -featherwing_width / 2 - sidewall_width, 0, 0 ])
+                    {
+                        end_lip2(0.51, 0, 0);
+                        end_lip2(0.51, 0, -featherwing_length - sidewall_width);
+                    }
+                }
+            }
+        }
+    }
+}
 
 /* Assembly ---------------------------------------------------------------*/
 
@@ -154,15 +224,18 @@ board_tray()
             sidewall(1);
             sidewall(0);
             sidewall(-1);
-            end_lip(1);
-            end_lip(-1);
+            // end_lip(1, 1);
+            end_lip2(1.08, 0, 0);
+            end_lip(-1, 1);
+            third_tray();
             switch_holder();
         }
         power_notch(1, 1);
         power_notch(-1, -1);
         center_post();
-//        translate([0, 0, featherwing_height/2 + 2])
-//        cube([featherwing_width*3+switch_length*2+5, featherwing_length+5, 10], center=true);
+        //        translate([0, 0, featherwing_height/2 + 2])
+        //        cube([featherwing_width*3+switch_length*2+5,
+        //        featherwing_length+5, 10], center=true);
     }
 }
 
