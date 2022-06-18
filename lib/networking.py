@@ -1,11 +1,8 @@
 """
 Functions/classes for wireless network communications.
 """
-
-from secrets import WIFI_PASSWORD, WIFI_SSID
-
+from .secrets import WIFI_PASSWORD, WIFI_SSID
 from wifi import Network, radio
-
 
 def get_network_list():
     """
