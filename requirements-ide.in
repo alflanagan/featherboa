@@ -8,6 +8,7 @@ sphinx-rtd-theme
 black
 isort
 
-# static analysis tool. may report things that would be a problem with cpython but are
+# static analysis tools. may report things that would be a problem with cpython but are
 # not a problem with circuitpython, use your discretion
 flake8
+mypy
