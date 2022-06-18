@@ -48,14 +48,14 @@ Some catchup:
 
 TODOS:
 
-   1. Further updates to board holder. The side notches are still a little bit off, and I should add notches for the connectors
-      on the board ends. However, the velcro is (for now) lifting the connectors higher than the end walls anyway. Ideally you'd
-      be able to snap the boards into the holder and have notches for everything, lined up properly.
-   2. A lot of coding. I'm still not happy with the data structures for representing motors, motor controllers, and the four
-      legs, to say nothing of actually programming coherent movement.
+   1. Further updates to board holder. The side notches are still a little bit off, and I should add notches for the connectors on the board ends. However, the velcro is (for now) lifting the connectors higher than the end walls anyway. Ideally you'd be able to snap the boards into the holder and have notches for everything, lined up properly.
+   2. A lot of coding. I'm still not happy with the data structures for representing motors, motor controllers, and the four legs, to say nothing of actually programming coherent movement.
 
 Done:
 
-   1. Hooked up motors for left side and spent some time matching servo motor # on the board to position on the robot. Note
-      that angles are very inconsistent, need to calibrate.
+   1. Hooked up motors for left side and spent some time matching servo motor # on the board to position on the robot. Note that angles are very inconsistent, need to calibrate.
    2. A lot of code cleanup and refactoring.
+
+3/2/2022
+
+   1. Printed new version of board holder. Immediately saw that third tray for ESP32-S2 board would block connectors on the motor controller boards. Note: try to avoid permanent headers until you've decided on positions for all the electronic components.
