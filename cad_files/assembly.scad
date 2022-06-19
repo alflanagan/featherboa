@@ -2,6 +2,7 @@ use <backbone.scad>
 use <coxa.scad>
 use <femur.scad>
 use <hip.scad>
+use <hip_dimensions.scad>
 use <servo.scad>
 use <tibia.scad>
 
@@ -23,7 +24,7 @@ if (show_full_assembly == 1) {
 
     for (i = [ 1, -1 ]) {
         translate([ 0, i * h_pos, (bb_height / 2) ])
-            hip(servo_length, servo_width);
+            hip();
 
         for (j = [ 1, -1 ]) {
             translate([ j * 22.5, i * h_pos, 8 ]) union()
