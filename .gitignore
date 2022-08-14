@@ -20,3 +20,9 @@ test_results.txt
 boot_out.txt
 # vscode workspace seems to be pretty machine-specific, sharing it not useful
 *.code-workspace
+
+bootloader/
+load_bootloader.sh
+tiny_uf2/
+*.uf2
+*.wp?
