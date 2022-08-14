@@ -1,7 +1,6 @@
 # these are modules from the adafruit library, which are convenient for reference while developing
 adafruit-circuitpython-motor
 adafruit-circuitpython-adafruitio
-adafruit-circuitpython-esp32spi
 adafruit-circuitpython-portalbase
 adafruit-circuitpython-servokit
 
