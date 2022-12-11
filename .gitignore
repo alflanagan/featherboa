@@ -26,3 +26,4 @@ load_bootloader.sh
 tiny_uf2/
 *.uf2
 *.wp?
+.DS_Store

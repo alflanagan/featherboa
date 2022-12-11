@@ -1,5 +1,7 @@
 font_size = 5;
 
+stencil_font = "Boston Traffic:style=Regular";
+
 color("lightblue")
 difference()
 {
@@ -17,10 +19,10 @@ difference()
                    $fn = 16) union()
     {
         translate([ 0, 7, 0 ]) text(
-            "Experimental", font = "Courier New:style=Bold", size = font_size);
-        text("Varmint", font = "Courier New:style=Bold", size = font_size);
+            "Experimental", font = stencil_font, size = font_size);
+        text("Varmint", font = stencil_font, size = font_size);
         translate([ 0, -7, 0 ]) text(
-            "Prototype", font = "Courier New:style=Bold", size = font_size);
+            "Prototype", font = stencil_font, size = font_size);
     }
 }
 
