@@ -2,7 +2,7 @@
 
 include <BOSL2/std.scad>
 include <BOSL2/gears.scad>
-
+include <sg92r_gear.scad>
 
 // height of the beam, in mm
 height = 4;
@@ -17,7 +17,7 @@ end_radius = ywidth / 2;
 
 
 module
-gear()
+gear2()
 {
     scale([0.5, 0.5, 1]) {
         difference () {
@@ -70,11 +70,15 @@ femur(thickness = 4, center_to_center = 40, width = 12)
             translate([center_to_center, 0, 0])
                cylinder(thickness + 0.1, 4, 4, $fn=60);
         }
-        gear();
+        gear2();
         translate([center_to_center, 0, 0])
-          gear();
+          gear2();
     }
 }
 
+union() {
+  translate([0, 10, 0])
+    gear();
 
-femur();
+  femur();
+}

@@ -77,8 +77,8 @@ difference() {
       rotate([-90, 0, 0])
         gear(height=4.05);
   }
-  translate([-10, 3, -1])
-    cube(55);
-  translate([20, -3, -1])
-    cube(30);
+//  translate([-10, 3, -1])
+//    cube(55);
+//  translate([20, -3, -1])
+//    cube(30);
 }
