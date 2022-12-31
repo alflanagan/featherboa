@@ -1,5 +1,4 @@
 # packages to build local copies of docs
-Sphinx
 rstcheck
 sphinx-autobuild
 sphinx-rtd-theme
