@@ -3,7 +3,7 @@
 /* battery is 1200 mAh PKCELL LP503562 */
 length = 64;
 width = 35;
-height = 7;
+height = 5;
 wall_thickness = 1.5;
 overlap = 0.001;
 wires_width = 12;
@@ -32,7 +32,7 @@ union() {
     union () {
       /* outer shell has room for battery, plus wall_thickness on each side */
       cube([width + wall_thickness*2, length + wall_thickness*2, height + wall_thickness*2]);
-      
+
     translate([
         width/2 + wall_thickness,
         length/2 + wall_thickness,
@@ -43,32 +43,36 @@ union() {
     /* inner cutout is simple */
     translate([wall_thickness, wall_thickness, wall_thickness])
       cube([width, length, height + wall_thickness*2]);
-    
+
     /* to center the notch, the x coordinate is found by taking the total width,
        subtracting the wires_width, and dividing by 2
     */
     translate([
-      (width + wall_thickness*2 - wires_width) / 2, 
-      -overlap, 
+      (width + wall_thickness*2 - wires_width) / 2,
+      -overlap,
       wall_thickness
     ])
       /* the actual notch is width of wires_width */
       cube([wires_width, wall_thickness + overlap*2, height + wall_thickness + overlap]);
-    
+
     /* additional openings reduce material & enhance airflow */
     translate([5, 5, -wall_thickness/2])
       cube([width - 10, length / 2 - 10, wall_thickness*2]);
 
     translate([5, length/2 + 5, -wall_thickness/2])
       cube([width - 10, length / 2 - 10, wall_thickness*2]);
+
+    /* lower the wall on one side to make battery insertion easier */
+    translate([wall_thickness + overlap, 0, wall_thickness + height / 2])
+      cube([width, 5, height]);
   }
-  
+
   /* slanted tabs to (hopefully) hold battery */
-  translate([0, (length + tab_width) / 2, height * 1.75])
+  translate([0, (length + tab_width) / 2, height * 2])
     rotate([0, 90, -90])
       battery_tab();
 
-  translate([width + wall_thickness * 2, (length - tab_width) / 2, height * 1.75])
+  translate([width + wall_thickness * 2, (length - tab_width) / 2, height * 2])
     rotate([0, 90, 90])
       battery_tab();
   }
