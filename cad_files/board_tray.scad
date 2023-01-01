@@ -85,7 +85,7 @@ center_post()
 {
     cylinder($fn = 64,
              r = center_hole_radius,
-             h = tray_bottom_thickness + backbone_height / 2);
+             h = backbone_height / 2);
 }
 
 module
@@ -294,8 +294,13 @@ board_tray()
             //end_lip(-1, 1);
             // third_tray();
             //switch_holder();
+          translate([
+                     featherwing_width + 2 * sidewall_width,
+                     featherwing_length / 2,
+                     -(backbone_height / 2) + overlap
+                    ])
+            center_post();
         }
-        center_post();
         // power_notch();
         //        translate([0, 0, featherwing_height/2 + 2])
         //        cube([featherwing_width*3+switch_length*2+5,
