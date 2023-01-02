@@ -23,10 +23,12 @@ featherwing_height = 10;
 circuit_board_thickness = 2.6;
 
 /* [Thickness] */
-// sidewall width
+// sidewall width (also for end lips)
 sidewall_width = 0.6;
 // bottom thickness -- biggest effect on mass
 tray_bottom_thickness = 0.6;
+// thickness of switch box walls
+switch_box_thickness = 0.6;
 
 /* [Power Post Cutouts] */
 // size of cutout for mc board power
@@ -43,9 +45,20 @@ switch_length = 4.19;
 switch_height = 5.6;
 switch_wires_length = 2;
 switch_wires_width = 6;
-// thickness of switch box walls
-switch_box_thickness = 0.6;
 
+/* [End Lip Cutouts ] */
+// usb-c connector on featherS2
+usb_c_width = 10;
+// distance from edge with power post cutout
+usb_c_offset = 6.5;
+// QWIIC (I2C) connector on featherS2
+i2c_width = 6.3;
+// distance from edge w/ power post cutout
+i2c_offset = 4.42;
+// motor controller headers
+mc_width = 9.85;
+// distance from edge w/ power post cutout
+mc_offset = 7.5;
 
 /* General Approach -----------------------------------------------------*/
 /*
@@ -102,12 +115,26 @@ sidewall()
 /*
  * Cutout in end_lip to allow access for USB-C connector or motor controller
  * headers (which are roughly the same width)
- *
- * not yet implemented
  */
 module
 usb_notch() {
-  cube([1, 1, 1]);
+  cube([
+    usb_c_width, 
+    sidewall_width + overlap * 2,
+    featherwing_height
+  ]);
+}
+
+/*
+ * Cutout in end_lip to allow access for QWIIC connector.
+ */
+module
+qwiic_notch() {
+  cube([
+    i2c_width, 
+    sidewall_width + overlap * 2,
+    featherwing_height
+  ]);
 }
 
 /*
@@ -125,6 +152,18 @@ power_notch()
     ]);
 }
 
+/*
+ * Cutout in end_lip to fit horizontal headers.
+ */
+module
+mc_header_notch() {
+  cube([
+    mc_width, 
+    sidewall_width + overlap * 2,
+    featherwing_height
+  ]);
+}
+
 
 /*
  * A low wall that spans the two board trays.
@@ -135,7 +174,7 @@ end_lip()
   cube(
     [
       featherwing_width * 2 + sidewall_width * 3,
-      1,
+      sidewall_width,
       tray_bottom_thickness + circuit_board_thickness
     ]
   );
@@ -191,36 +230,57 @@ switch_holder()
 module
 board_tray()
 {
-    difference()
+  difference()
+  {
+    union()
     {
-        union()
-        {
-            tray_bottom();
-            sidewall();
-            translate([featherwing_width + sidewall_width, 0, 0])
-                sidewall();
-            translate([(featherwing_width + sidewall_width) * 2, 0, 0])
-                sidewall();
-            end_lip();
-            // 0.2 either corrects for rounding error, or I missed something
-            translate([0, featherwing_length + 0.2, 0])
-              end_lip();
-            translate([-switch_length, (featherwing_length - switch_width) / 2, 0])
-              switch_holder();
-          translate([
-                     featherwing_width + 2 * sidewall_width,
-                     featherwing_length / 2,
-                     -(backbone_height / 2) + overlap
-                    ])
-            center_post();
-        }
-        // translate([
-        //   featherwing_width + (sidewall_width * 2) - overlap,
-        //   featherwing_length / 2 - power_post_width / 2 - power_post_from_end,
-        //   featherwing_height / 2 + tray_bottom_thickness / 2
-        // ])
-        power_notch();
-    }
+      tray_bottom();
+      sidewall();
+      translate([featherwing_width + sidewall_width, 0, 0])
+        sidewall();
+      translate([(featherwing_width + sidewall_width) * 2, 0, 0])
+        sidewall();
+      end_lip();
+      translate([0, featherwing_length + sidewall_width, 0])
+        end_lip();
+      translate([-switch_length, (featherwing_length - switch_width) / 2, 0])
+        switch_holder();
+      translate([
+        featherwing_width + 2 * sidewall_width,
+        featherwing_length / 2,
+        -backbone_height / 2 + overlap
+      ])
+        center_post();
+    }  // union
+    translate([0, power_post_from_end, tray_bottom_thickness])
+      power_notch();
+    translate([
+      featherwing_width * 2 + sidewall_width * 2,
+      featherwing_length - power_post_width - power_post_from_end,
+      tray_bottom_thickness
+    ])
+      power_notch();
+    translate([usb_c_offset, -overlap, tray_bottom_thickness])
+      usb_notch();
+    translate([
+      i2c_offset, 
+      featherwing_length + sidewall_width - overlap,
+      tray_bottom_thickness
+    ])
+      qwiic_notch();
+    translate([
+      (featherwing_width + sidewall_width) * 2 - mc_width - mc_offset,
+      -overlap,
+      tray_bottom_thickness
+    ])
+      mc_header_notch();
+    translate([
+      (featherwing_width + sidewall_width) * 2 - mc_width - mc_offset,
+      featherwing_length + sidewall_width - overlap,
+      tray_bottom_thickness
+    ])
+      mc_header_notch();
+  } // difference
 }
 
 board_tray();
