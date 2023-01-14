@@ -27,3 +27,5 @@ tiny_uf2/
 *.uf2
 *.wp?
 .DS_Store
+# secrets variables
+settings.toml

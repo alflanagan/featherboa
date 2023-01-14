@@ -8,6 +8,8 @@ fi
 
 cp ./*.py ${DESTDIR}
 cp lib/*.py ${DESTDIR}/lib
+# secrets file
+cp settings.toml ${DESTDIR}
 
 # Circuitpython library modules are installed by circup (https://github.com/adafruit/circup/)
 # see files board-requirements.in and board-requirements.txt
