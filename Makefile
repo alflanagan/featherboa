@@ -6,20 +6,19 @@ PIP_COMPILE = pip-compile --generate-hashes --allow-unsafe --output-file $(REQUI
 setup:
 	python -m pip install --upgrade pip wheel pip-tools setuptools
 
-# generates requirements.txt files from requirements.in files
-requirements:
-	$(PIP_COMPILE) requirements-host.in requirements-ide.in
+requirements.txt: requirements-ide.in requirements-host.in
+	$(PIP_COMPILE) $^
 
 # install all requirements to user's PC
 pip-sync:
 	pip-sync $(REQUIREMENTS_OUT)
 
+lint:
+	flake8 .
+
 install2board:
 	circup
 
-# list tasks in this Makefile. convenience command that should be in 'make' but inexplicably isn't
-tasks:
-	@grep -oe '^[a-zA-Z0-9_-]\+:' Makefile | tr -d ':' | grep -v tasks | grep -v targets
-
-# better name for "tasks"
-targets: tasks
+# list targets in this Makefile. convenience command that should be in 'make' but inexplicably isn't
+targets:
+	@grep -e '^[a-zA-Z0-9_-]\+:' Makefile | tr -d ':'
