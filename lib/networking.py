@@ -2,8 +2,9 @@
 Functions/classes for wireless network communications.
 """
 import os
+
+from adafruit_portalbase.wifi_esp32s2 import WiFi
 from wifi import radio
-import adafruit_portal_base
 
 # import adafruit_requests as requests
 # from wifi_esp32s2 import WiFi
@@ -61,5 +62,5 @@ def setup():
     """
     Setup the ESP32-S2 for wireless network communication.
     """
-    wifi = adafruit_portal_base.WiFi()
+    wifi = WiFi()
     wifi.connect(get_ssid(), get_pwd())
