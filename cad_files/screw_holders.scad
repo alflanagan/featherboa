@@ -13,9 +13,9 @@ hole_to_hole_wide = 45.7;
 
 /* [Holes] */
 cylinder_width = 3.8; // minumum, can be larger
-cylinder_height = 2.5;
+cylinder_height = 3.75; // length of screw I have handy
 // size of hole to accept M2*5 screw
-m_2_5_width = 2;
+m_2_5_width = 2.2;
 
 /* [cube] */
 cube_z = 1.0;
