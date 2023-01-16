@@ -1,3 +1,5 @@
+include <screw_holders.scad>;
+
 // tray for attaching feather boards to body assembly
 // 1 unit = 1 mm
 
@@ -22,8 +24,8 @@ featherwing_height = 10;
 hole_to_hole_narrow = 17.7;
 hole_to_hole_wide = 45.7;
 
-// mc board w/ through-hole leads
-circuit_board_thickness = 2.6;
+// mc board (includes screw holes)
+circuit_board_thickness = 6;
 
 /* [Thickness] */
 // sidewall width
@@ -240,7 +242,14 @@ board_tray()
                        featherwing_length / 2 - switch_width / 2,
                        0])
                 switch_holder();
-        }
+            translate([featherwing_width + sidewall_width, sidewall_width, 0])
+              rotate([0, 0, 90])
+                four_holes(tray_bottom_thickness);
+            translate([(featherwing_width + sidewall_width) * 2,
+                        sidewall_width,
+                        0])
+              rotate([0, 0, 90])
+                four_holes(tray_bottom_thickness);        }
         translate([board_i2c_to_edge, 
                    featherwing_length + sidewall_width - overlap,
                    tray_bottom_thickness])
