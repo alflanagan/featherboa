@@ -31,7 +31,8 @@ circuit_board_thickness = 6;
 // sidewall width
 sidewall_width = 0.6;
 // bottom thickness -- biggest effect on mass
-tray_bottom_thickness = 0.6;
+tray_bottom_thickness = 2;
+// tray_bottom_thickness = 0.8;
 
 // z-offset of center post and matching hole
 center_post_offset = -backbone_height / 2 - tray_bottom_thickness - overlap;
@@ -74,6 +75,14 @@ power_post_from_end = 7;
 side_header_width = 10.5;
 side_header_offset = 6.1;
 
+/* [Power Boost Holder] */
+boost_length = 21;
+// both connectors are same width, and centered
+boost_notch_width = 8.45;
+boost_notch_offset = 6.2;
+
+boost_width = boost_notch_offset * 2 + boost_notch_width;
+
 /* General Approach -----------------------------------------------------*/
 /*
  * After a lot of experimentation, I've settled on the following best practice.
@@ -112,12 +121,6 @@ center_post()
              h = tray_bottom_thickness + backbone_height / 2);
 }
 
-module
-center_post_xlate()
-{
-    translate([ 0, 0, center_post_offset ])
-        center_post();
-}
 
 /*
  * Draws a flat rectangle the length of a feather board and height
@@ -195,6 +198,36 @@ switch_holder()
 
 
 module
+boost_holder()
+{
+    end_height = tray_bottom_thickness + circuit_board_thickness;
+    wire_gap = 2; // small space for routing wires to 5V input
+    difference()
+    {
+        union()
+        {
+            cube([ boost_length, boost_width, tray_bottom_thickness ]);
+            translate([ 0, -sidewall_width + overlap, 0 ])
+                cube([ boost_length, sidewall_width, end_height ]);
+            translate([ wire_gap, boost_width - overlap, 0 ])
+                cube([ boost_length - wire_gap, sidewall_width, end_height ]);
+            translate(
+                [ boost_length - sidewall_width + overlap, -sidewall_width, 0 ])
+                cube([
+                    sidewall_width,
+                    boost_width + sidewall_width * 2,
+                    end_height
+                ]);
+            boost_holes(tray_bottom_thickness - overlap);
+        }
+        translate([boost_notch_offset + sidewall_width, -sidewall_width - overlap, tray_bottom_thickness])
+            cube([boost_notch_width, sidewall_width + overlap * 2, featherwing_height]);
+        translate([boost_notch_offset + sidewall_width, boost_width - overlap, tray_bottom_thickness])
+            cube([boost_notch_width, sidewall_width + overlap * 2, featherwing_height]);
+    }
+}
+
+module
 board_i2c()
 {
     cube([board_i2c_width, sidewall_width + 2 * overlap, featherwing_height]);
@@ -238,8 +271,8 @@ board_tray()
             end_lip(1);
             translate([0, featherwing_length + sidewall_width, 0])
                 end_lip(1);
-            translate([featherwing_width * 2 + sidewall_width * 4 - overlap, 
-                       featherwing_length / 2 - switch_width / 2,
+            translate([-switch_length - sidewall_width + overlap, 
+                       featherwing_length * 2 / 3 - switch_width / 2,
                        0])
                 switch_holder();
             translate([featherwing_width + sidewall_width, sidewall_width, 0])
@@ -249,7 +282,16 @@ board_tray()
                         sidewall_width,
                         0])
               rotate([0, 0, 90])
-                four_holes(tray_bottom_thickness);        }
+                four_holes(tray_bottom_thickness);
+              translate([featherwing_width * 2 + sidewall_width * 3 - overlap,
+                         8,
+                         0])
+                boost_holder();
+                translate([(featherwing_width * 2 + sidewall_width * 3) / 2,
+                            featherwing_length / 2,
+                            center_post_offset])
+                    center_post();
+        }
         translate([board_i2c_to_edge, 
                    featherwing_length + sidewall_width - overlap,
                    tray_bottom_thickness])
@@ -272,8 +314,6 @@ board_tray()
                    featherwing_length - power_post_width - power_post_from_end,
                    tray_bottom_thickness])
             power_notch();
-
-        // center_post();
     }
 }
 

@@ -11,6 +11,16 @@ featherwing_length = 50.8;
 hole_to_hole_narrow = 17.7;
 hole_to_hole_wide = 45.7;
 
+/* [Boost Board] */
+/* [Power Boost Holder] */
+boost_length = 20;
+// both connectors are same width, and centered
+boost_notch_width = 8.45;
+boost_notch_offset = 5.66;
+
+boost_width = boost_notch_offset * 2 + boost_notch_width;
+
+
 /* [Holes] */
 cylinder_width = 3.8; // minumum, can be larger
 cylinder_height = 3.75; // length of screw I have handy
@@ -19,9 +29,6 @@ m_2_5_width = 2.2;
 
 /* [cube] */
 cube_z = 1.0;
-
-x_offset = (featherwing_length - hole_to_hole_wide) / 2;
-y_offset = (featherwing_width - hole_to_hole_narrow) / 2;
 
 module screw_hole () {
   union() {
@@ -34,6 +41,9 @@ module screw_hole () {
 
 
 module four_holes (z_offset) {
+  x_offset = (featherwing_length - hole_to_hole_wide) / 2;
+  y_offset = (featherwing_width - hole_to_hole_narrow) / 2;
+    
   translate([x_offset, y_offset, z_offset])
     screw_hole();
   translate([x_offset + hole_to_hole_wide, y_offset, z_offset])
@@ -41,6 +51,21 @@ module four_holes (z_offset) {
   translate([x_offset, y_offset + hole_to_hole_narrow, z_offset])
     screw_hole();
   translate([x_offset + hole_to_hole_wide, y_offset + hole_to_hole_narrow,  z_offset])
+    screw_hole();
+}
+
+module boost_holes (z_offset) {
+    hole_to_hole = 15;
+  x_offset = (boost_length - hole_to_hole) / 2;
+  y_offset = (boost_width - hole_to_hole) / 2;
+
+  translate([x_offset, y_offset, z_offset])
+    screw_hole();
+  translate([x_offset + hole_to_hole, y_offset, z_offset])
+    screw_hole();
+  translate([x_offset, y_offset + hole_to_hole, z_offset])
+    screw_hole();
+  translate([x_offset + hole_to_hole, y_offset + hole_to_hole,  z_offset])
     screw_hole();
 }
 
