@@ -2,7 +2,7 @@
 // backbone();
 
 module
-backbone(bl = 90, bw = 14, bh = 8, sl = 23, sw = 12.5)
+backbone(bl = 100, bw = 14, bh = 8, sl = 23, sw = 12.7)
 {
     h_pos = ((bl - 20) / 2);
     difference()
@@ -45,3 +45,6 @@ backbone(bl = 90, bw = 14, bh = 8, sl = 23, sw = 12.5)
         translate([ 0, 0, -4 ]) cylinder(r = 3, h = 10, $fn = 200);
     }
 }
+
+
+backbone();
