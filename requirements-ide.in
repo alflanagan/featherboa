@@ -1,5 +1,5 @@
 # formatting tools
-black
+black[d]
 isort
 
 # static analysis tools. may report things that would be a problem with cpython but are
