@@ -6,6 +6,7 @@ from random import randrange
 
 import board
 import digitalio
+import espidf
 import wifi
 
 from constants import NS_PER_SECOND
@@ -52,10 +53,6 @@ def setup():
 
 """
 
-# Say hello
-print("\nHello from FeatherS2!")
-print("---------------------\n")
-
 
 def say_hello():
     # Say hello
@@ -96,6 +93,7 @@ def show_network():
 
 
 class RandomBlinkLED:
+    # looks like each instance is about 87 bytes
     def __init__(self, max_delay):
         self.max_delay = max_delay
         self.mark = time.monotonic_ns()
@@ -146,6 +144,18 @@ def testServos():
         # sleep(2)
 
 
+def show_heap():
+    print("\nHeap")
+    print("--------------")
+    print(f"Total PSRAM: {espidf.get_total_psram():,} bytes")
+    print(f"Reserved PSRAM: {espidf.get_reserved_psram():,} bytes")
+    print(f"Heap size: {espidf.heap_caps_get_total_size():,} bytes")
+    print("Heap free: {:,} bytes".format(espidf.heap_caps_get_free_size()))
+    print("Mem allocated: {:,} bytes".format(gc.mem_alloc()))
+    print("Mem free: {:,} bytes".format(gc.mem_free()))
+    print("--------------")
+
+
 def main():
     # Make sure the 2nd LDO is turned on
     enable_LDO2(True)
@@ -165,6 +175,7 @@ def main():
     show_mem()
     show_network()
     connect_home_network()
+    show_heap()
 
 
 main()
