@@ -9,7 +9,9 @@ overlap = 0.01;
 
 /* [Center Post] */
 // center mounting hole in the backbone
-center_hole_radius = 3;
+// upper part is a bit wider -- see center_post.scad
+// center_hole_radius = 3.15; // 2.84 in real life, 4 => 3.76
+center_hole_radius = 3.7;
 // height of robot "backbone"
 backbone_height = 8;
 
@@ -25,7 +27,7 @@ hole_to_hole_narrow = 17.7;
 hole_to_hole_wide = 45.7;
 
 // mc board (includes screw holes)
-circuit_board_thickness = 6;
+circuit_board_thickness = 5;
 
 /* [Thickness] */
 // sidewall width
@@ -51,9 +53,9 @@ switch_box_thickness = 0.6;
 
 /* [Board i2c Connector] */
 // distance from edge
-board_i2c_to_edge = 5.1;
+board_i2c_to_edge = 5;
 // width of connector
-board_i2c_width = 6.35;
+board_i2c_width = 6.55;
 
 /* [Board Power Connector] */
 board_pwr_width = 8.0;
@@ -70,18 +72,11 @@ usb_width = 10.65;
 // size of cutout for mc board power
 power_post_width = 7.5;
 // location of power cutout
-power_post_from_end = 7;
+power_post_from_end = 5.7;
 // motor connections
 side_header_width = 10.5;
 side_header_offset = 6.1;
 
-/* [Power Boost Holder] */
-boost_length = 21;
-// both connectors are same width, and centered
-boost_notch_width = 8.45;
-boost_notch_offset = 6.2;
-
-boost_width = boost_notch_offset * 2 + boost_notch_width;
 
 /* General Approach -----------------------------------------------------*/
 /*
@@ -116,7 +111,7 @@ tray_bottom()
 module
 center_post()
 {
-    cylinder($fn = 64,
+    cylinder($fn = 50,
              r = center_hole_radius,
              h = tray_bottom_thickness + backbone_height / 2);
 }
@@ -140,7 +135,7 @@ module
 power_notch()
 {
     cube([
-            sidewall_width + overlap * 2,
+            sidewall_width + 1,
             power_post_width,
             featherwing_height
         ]);
@@ -196,37 +191,6 @@ switch_holder()
     };
 }
 
-
-module
-boost_holder()
-{
-    end_height = tray_bottom_thickness + circuit_board_thickness;
-    wire_gap = 2; // small space for routing wires to 5V input
-    difference()
-    {
-        union()
-        {
-            cube([ boost_length, boost_width, tray_bottom_thickness ]);
-            translate([ 0, -sidewall_width + overlap, 0 ])
-                cube([ boost_length, sidewall_width, end_height ]);
-            translate([ wire_gap, boost_width - overlap, 0 ])
-                cube([ boost_length - wire_gap, sidewall_width, end_height ]);
-            translate(
-                [ boost_length - sidewall_width + overlap, -sidewall_width, 0 ])
-                cube([
-                    sidewall_width,
-                    boost_width + sidewall_width * 2,
-                    end_height
-                ]);
-            boost_holes(tray_bottom_thickness - overlap);
-        }
-        translate([boost_notch_offset + sidewall_width, -sidewall_width - overlap, tray_bottom_thickness])
-            cube([boost_notch_width, sidewall_width + overlap * 2, featherwing_height]);
-        translate([boost_notch_offset + sidewall_width, boost_width - overlap, tray_bottom_thickness])
-            cube([boost_notch_width, sidewall_width + overlap * 2, featherwing_height]);
-    }
-}
-
 module
 board_i2c()
 {
@@ -248,7 +212,7 @@ motor_connections()
 module
 board_power()
 {
-    cube([sidewall_width + 2 * overlap,
+    cube([sidewall_width + 1,
           board_pwr_width,
           featherwing_height]);
 }
@@ -283,36 +247,32 @@ board_tray()
                         0])
               rotate([0, 0, 90])
                 four_holes(tray_bottom_thickness);
-              translate([featherwing_width * 2 + sidewall_width * 3 - overlap,
-                         8,
-                         0])
-                boost_holder();
+        }
                 translate([(featherwing_width * 2 + sidewall_width * 3) / 2,
                             featherwing_length / 2,
-                            center_post_offset])
+                            center_post_offset / 2])
                     center_post();
-        }
         translate([board_i2c_to_edge, 
                    featherwing_length + sidewall_width - overlap,
-                   tray_bottom_thickness])
+                   tray_bottom_thickness + circuit_board_thickness / 2])
             board_i2c();
         translate([usb_to_edge,
                    -overlap,
-                   tray_bottom_thickness])
+                   tray_bottom_thickness + circuit_board_thickness / 2])
             usb_connector();
         translate([featherwing_width * 2 - side_header_width - side_header_offset,
                    featherwing_length + sidewall_width - overlap,
-                   tray_bottom_thickness])
+                   tray_bottom_thickness + circuit_board_thickness / 2])
             motor_connections();
         translate([featherwing_width * 2 - side_header_width - side_header_offset, 
                    -overlap, 
-                   tray_bottom_thickness])
+                   tray_bottom_thickness + circuit_board_thickness / 2])
             motor_connections();
-        translate([-overlap, board_pwr_to_edge, tray_bottom_thickness])
+        translate([-overlap, board_pwr_to_edge, tray_bottom_thickness + circuit_board_thickness])
             board_power();
-        translate([featherwing_width * 2 + sidewall_width * 2,
+        translate([featherwing_width * 2 + sidewall_width * 2 - 0.5,
                    featherwing_length - power_post_width - power_post_from_end,
-                   tray_bottom_thickness])
+                   tray_bottom_thickness + circuit_board_thickness])
             power_notch();
     }
 }
