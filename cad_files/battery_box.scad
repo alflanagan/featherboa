@@ -7,12 +7,12 @@ height = 5;
 wall_thickness = 1.5;
 overlap = 0.001;
 wires_width = 12;
-post_height = 4 - overlap; // 1/2 backbone height (backbone.scad)
-post_radius = 3; // matches backbone
+
+post_radius = 3 + 0.2; // matches backbone + lip (see center_post.scad)
 
 // upper tabs
 tab_width = 10;
-tab_length = 10;
+
 
 
 module battery_tab(w=tab_width, h=height, t=wall_thickness) {
@@ -29,17 +29,16 @@ module battery_tab(w=tab_width, h=height, t=wall_thickness) {
 
 union() {
   difference () {
-    union () {
-      /* outer shell has room for battery, plus wall_thickness on each side */
-      cube([width + wall_thickness*2, length + wall_thickness*2, height + wall_thickness*2]);
+    /* outer shell has room for battery, plus wall_thickness on each side */
+    cube([width + wall_thickness*2, length + wall_thickness*2, height + wall_thickness*2]);
 
     translate([
-        width/2 + wall_thickness,
-        length/2 + wall_thickness,
-        -post_height + overlap
-      ])
-        cylinder(h=post_height, r=post_radius, $fn=40);
-    }
+      width/2 + wall_thickness,
+      length/2 + wall_thickness,
+      -wall_thickness / 2
+    ])
+      cylinder(h=wall_thickness + 1, r=post_radius, $fn=40);
+
     /* inner cutout is simple */
     translate([wall_thickness, wall_thickness, wall_thickness])
       cube([width, length, height + wall_thickness*2]);
@@ -56,10 +55,10 @@ union() {
       cube([wires_width, wall_thickness + overlap*2, height + wall_thickness + overlap]);
 
     /* additional openings reduce material & enhance airflow */
-    translate([5, 5, -wall_thickness/2])
+    translate([5 + wall_thickness, 5 + wall_thickness, -wall_thickness/2])
       cube([width - 10, length / 2 - 10, wall_thickness*2]);
 
-    translate([5, length/2 + 5, -wall_thickness/2])
+    translate([5 + wall_thickness, length/2 + wall_thickness + 5, -wall_thickness/2])
       cube([width - 10, length / 2 - 10, wall_thickness*2]);
 
     /* lower the wall on one side to make battery insertion easier */
@@ -68,11 +67,11 @@ union() {
   }
 
   /* slanted tabs to (hopefully) hold battery */
-  translate([0, (length + tab_width) / 2, height * 2])
+  translate([0, (length + tab_width) / 2 + wall_thickness, height * 2])
     rotate([0, 90, -90])
       battery_tab();
 
-  translate([width + wall_thickness * 2, (length - tab_width) / 2, height * 2])
+  translate([width + wall_thickness * 2, (length - tab_width) / 2 + wall_thickness, height * 2])
     rotate([0, 90, 90])
       battery_tab();
   }
